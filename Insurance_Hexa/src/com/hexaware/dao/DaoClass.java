@@ -1,6 +1,9 @@
 package com.hexaware.dao;
 
 import java.sql.*;
+import com.hexaware.exception.PolicyNotFoundException;
+import java.util.Scanner;
+
 import com.hexaware.util.*;
 import com.hexaware.util.DBUtil;
 import com.hexaware.model.*;
@@ -10,6 +13,8 @@ public class DaoClass {
 	PreparedStatement ps;
 	Statement stmt;
 	ResultSet rs;
+	
+	Scanner sc = new Scanner(System.in);
 	
 	public void CreatePolicyDao(Client client, Claim claim, Payment payment) {
 		try {
@@ -80,12 +85,16 @@ public class DaoClass {
 				
 				int no = ps.executeUpdate();
 				System.out.println(no+" row deleted from client");
+				
 			}
 			
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
+			catch (PolicyNotFoundException p) {
+				
+			}
 			try {
 				ps = com.prepareStatement("delete from claim where claimid=?");
 				ps.setInt(1, claimId);
@@ -182,7 +191,14 @@ public class DaoClass {
 			com = DBUtil.getDBConn();
 			
 			try {
-				
+				stmt = com.createStatement();
+				rs = stmt.executeQuery("select * from client where clientid="+clientId);
+				while(rs.next()) {
+					System.out.println("clientid is "+rs.getInt(1));
+					System.out.println("client name is "+rs.getString(2));
+					System.out.println("client contact is "+rs.getString(3));
+					System.out.println("client policy is "+rs.getString(4));
+				}
 			}
 			
 			catch (SQLException e) {
@@ -190,7 +206,17 @@ public class DaoClass {
 			}
 			
 			try {
-				
+				stmt = com.createStatement();
+				rs = stmt.executeQuery("select * from claim where claimid="+claimId);
+				while(rs.next()) {
+					System.out.println("claimid is "+rs.getInt(1));
+					System.out.println("claim number is "+rs.getInt(2));
+					System.out.println("claim datefield is "+rs.getString(3));
+					System.out.println("claim amount is "+rs.getDouble(4));
+					System.out.println("claim status is "+rs.getString(5));
+					System.out.println("claim policy is "+rs.getString(6));
+					System.out.println("client id is "+rs.getInt(7));
+				}
 			}
 			
 			catch (SQLException e) {
@@ -198,7 +224,14 @@ public class DaoClass {
 			}
 			
 			try {
-				
+				stmt = com.createStatement();
+				rs = stmt.executeQuery("select * from payment where paymentid="+paymentId);
+				while(rs.next()) {
+					System.out.println("paymentid is "+rs.getInt(1));
+					System.out.println("payment date is "+rs.getString(2));
+					System.out.println("payment amount is "+rs.getDouble(3));
+					System.out.println("client id is "+rs.getInt(4));
+				}
 			}
 			
 			catch (SQLException e) {
@@ -217,18 +250,48 @@ public class DaoClass {
 			
 			try {
 				ps = com.prepareStatement("update client set clientname=? where clientid=?");
-			
+				System.out.println("Enter new client name");
+				String newclientname = sc.next();
+				ps.setString(1, newclientname);
 				ps.setInt(2, clientId);
 				
 				int no = ps.executeUpdate();
-				System.out.println(no+" row deleted from client");
+				System.out.println(no+" row updated from client");
 			}
 			
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 			
+			try {
+				ps = com.prepareStatement("update claim set claimamount=? where claimid=?");
+				System.out.println("Enter new client name");
+				String newclaimamount = sc.next();
+				ps.setString(1, newclaimamount);
+				ps.setInt(2, claimId);
+				
+				int no = ps.executeUpdate();
+				System.out.println(no+" row updated from claim");
+			}
 			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				ps = com.prepareStatement("update claim set paymentamount=? where paymentid=?");
+				System.out.println("Enter new client name");
+				String newpaymentamount = sc.next();
+				ps.setString(1, newpaymentamount);
+				ps.setInt(2, paymentId);
+				
+				int no = ps.executeUpdate();
+				System.out.println(no+" row updated from payment");
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
 		}
 		catch (SQLException e) {

@@ -19,9 +19,9 @@ public class InsuranceService {
 		dao.GetAllPolicies();
 	}
 
-	public void GetPolicyService(int clientId, int claimId, int paymentId) {
+	/*public void GetPolicyService(int clientId, int claimId, int paymentId) {
 		dao.GetPolicyDao(clientId,claimId,paymentId);
-	}
+	}*/
 
 	public void UpdatePolicyService(int clientId, int claimId, int paymentId) {
 		dao.UpdatePolicyDao(clientId,claimId,paymentId);

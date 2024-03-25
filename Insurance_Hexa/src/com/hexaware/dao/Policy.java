@@ -4,11 +4,10 @@ import java.util.Scanner;
 import com.hexaware.model.*;
 
 
-public abstract class Policy implements IPolicyService{
+public class Policy implements IPolicyService{
 	Client client = new Client();
 	Claim claim = new Claim();
 	Payment payment = new Payment();
-	//DaoClass dao = new DaoClass();
 	InsuranceService insuranceservice = new InsuranceService();
 	
 	Scanner sc = new Scanner(System.in);
@@ -119,7 +118,7 @@ public abstract class Policy implements IPolicyService{
 		int paymentid = sc.nextInt();
 		payment.setPaymentAmount(paymentid);
 		
-		insuranceservice.GetPolicyService(client.getClientId(),claim.getClaimId(),payment.getPaymentId());
+		//insuranceservice.GetPolicyService(client.getClientId(),claim.getClaimId(),payment.getPaymentId());
 		//dao.GetPolicyDao(client.getClientId(),claim.getClaimId(),payment.getPaymentId());
 		
 	}
